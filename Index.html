@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Connect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-12">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl">
+                    <i class="fa-solid font-bold fa-house-chimney-window text-xl"></i>
+                </div>
+                <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">Family<span class="text-indigo-600">Connect</span></h1>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-100 p-1 rounded-xl flex items-center text-xs font-bold">
+                    <button onclick="setLanguage('de')" id="lang-de" class="px-3 py-1.5 rounded-lg bg-white shadow-sm text-indigo-600 transition">DE 🇩🇪</button>
+                    <button onclick="setLanguage('pl')" id="lang-pl" class="px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">PL 🇵🇱</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-6 space-y-8">
+
+        <!-- Top Section: Date & Photo of the Day -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Datum & Welcome -->
+            <div class="bg-gradient-to-br from-indigo-600 to-violet-700 text-white p-6 rounded-3xl shadow-lg flex flex-col justify-between">
+                <div>
+                    <span class="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md mb-3" id="lbl-today">Heute</span>
+                    <h2 class="text-3xl font-extrabold" id="current-date">--. --. ----</h2>
+                    <p class="text-indigo-100 text-sm mt-1" id="current-day">----------------</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/20 flex items-center justify-between">
+                    <span class="text-xs text-indigo-200" id="lbl-active-members">Aktive Mitglieder</span>
+                    <span class="text-sm font-bold bg-white/20 px-2 py-0.5 rounded-md">4</span>
+                </div>
+            </div>
+
+            <!-- Foto des Tages -->
+            <div class="md:col-span-2 bg-white rounded-3xl p-4 shadow-sm border border-slate-200 flex flex-col justify-between relative overflow-hidden group">
+                <div class="relative h-48 w-full rounded-2xl overflow-hidden bg-slate-100">
+                    <img id="daily-photo" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1000&q=80" alt="Foto des Tages" class="w-full h-full object-cover transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
+                        <span class="text-white text-sm font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-camera"></i> <span id="lbl-photo-title">Foto des Tages</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between mt-3 px-1 text-xs">
+                    <div class="flex gap-2">
+                        <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-semibold text-slate-700 transition">
+                            <i class="fa-solid fa-upload mr-1"></i> <span id="btn-upload-photo">Foto ändern</span>
+                            <input type="file" id="photo-input" accept="image/*" class="hidden" onchange="uploadPhoto(event)">
+                        </label>
+                        <button onclick="toggleSlideshow()" id="btn-slideshow" class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-semibold text-slate-700 transition">
+                            <i class="fa-solid fa-shuffle mr-1"></i> <span id="lbl-slideshow">Zufallsgalerie</span>
+                        </button>
+                    </div>
+                    <span class="text-slate-400 font-medium" id="slideshow-status">Manuell</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Member Invite Bar -->
+        <section class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3"   de: {
+                today: "Heute",
+                activeMembers: "Aktive Mitglieder",
+                photoTitle: "Foto des Tages",
+                btnUpload: "Foto ändern",
+                btnSlideshow: "Zufallsgalerie",
+                familyGroup: "Familie Connect Gruppe",
+                familySub: "Eltern, Kinder & Großeltern vernetzt",
+                btnAddMember: "Mitglied einladen",
+                scheduleTitle: "Stundenplan & Arbeitszeiten",
+                btnAddEvent: "Termin eintragen",
+                badgeKids: "Schule / Arzt",
+                todoTitle: "Familien To-Do Liste",
+                todoSub: "Aufgaben an Einzelne oder alle Personen zuweisen",
+                modalEventTitle: "Termin / Arbeitszeit hinzufügen",
+                modalInviteTitle: "Mitglied einladen",
+                modalInviteSub: "Erstelle einen Einladungscode für ein Kind oder Großelternteil.",
+                slideshowActive: "Automatisch",
+                slideshowInactive: "Manuell",
+                assigneeAll: "Alle",
+                
+                // Rollen & Begriffe
+                parents: "Eltern",
+                children: "Kinder",
+                grandparents: "Großeltern",
+                colMama: "Mama (Arbeit)",
+                colPapa: "Papa (Arbeit)",
+                colKids: "Kinder & Termine",
+                
+                // Formulare & Optionen
+                optMamaWork: "Mama (Arbeitszeit)",
+                optPapaWork: "Papa (Arbeitszeit)",
+                optKidsSchool: "Kinder (Schule / Arzt)",
+                roleChild: "Kind",
+                roleGrandparent: "Großeltern",
+                roleParent: "Elternteil",
+
+                labelCategory: "Kategorie / Person",
+                labelTitle: "Titel / Beschreibung",
+                labelTime: "Uhrzeit / Zeitraum",
+                labelRole: "Rolle",
+                labelName: "Name",
+                labelCode: "Einladungscode",
+                inputTaskPlaceholder: "Neue Aufgabe...",
+                btnSave: "Speichern",
+                btnCancel: "Abbrechen",
+                btnDone: "Fertig"
+            },
+            pl: {
+                today: "Dzisiaj",
+                activeMembers: "Aktywni członkowie",
+                photoTitle: "Zdjęcie Dnia",
+                btnUpload: "Zmień zdjęcie",
+                btnSlideshow: "Losowa galeria",
+                familyGroup: "Grupa Family Connect",
+                familySub: "Rodzice, Dzieci i Dziadkowie w sieci",
+                btnAddMember: "Zaproś członka",
+                scheduleTitle: "Plan lekcji i godziny pracy",
+                btnAddEvent: "Dodaj wpis",
+                badgeKids: "Szkoła / Lekarz",
+                todoTitle: "Lista zadań rodzinnych",
+                todoSub: "Przydzielaj zadania wszystkim lub poszczególnym osobom",
+                modalEventTitle: "Dodaj termin / godziny pracy",
+                modalInviteTitle: "Zaproś członka rodziny",
+                modalInviteSub: "Wygeneruj kod zaproszenia dla dziecka lub dziadków.",
+                slideshowActive: "Automatycznie",
+                slideshowInactive: "Ręcznie",
+                assigneeAll: "Wszyscy",
+                
+                // Rollen & Begriffe auf Polnisch
+                parents: "Rodzice",
+                children: "Dzieci",
+                grandparents: "Dziadkowie",
+                colMama: "Mama (Praca)",
+                colPapa: "Tata (Praca)",
+                colKids: "Dzieci i terminy",
+
+                // Formulare & Optionen auf Polnisch
+                optMamaWork: "Mama (Godziny pracy)",
+                optPapaWork: "Tata (Godziny pracy)",
+                optKidsSchool: "Dzieci (Szkoła / Lekarz)",
+                roleChild: "Dziecko",
+                roleGrandparent: "Dziadkowie",
+                roleParent: "Rodzic",
+
+                labelCategory: "Kategoria / Osoba",
+                labelTitle: "Tytuł / Opis",
+                labelTime: "Czas / Godziny",
+                labelRole: "Rola",
+                labelName: "Imię",
+                labelCode: "Kod zaproszenia",
+                inputTaskPlaceholder: "Nowe zadanie...",
+                btnSave: "Zapisz",
+                btnCancel: "Anuluj",
+                btnDone: "Gotowe"
+            }
+        };
+
+        let currentLang = 'de';
+
+        let events = [
+            { cat: 'mama', title: 'Frühschicht Büro / Ranna zmiana', time: '07:30 - 15:30' },
+            { cat: 'papa', title: 'Spätschicht Homeoffice / Popołudniowa zmiana', time: '12:00 - 20:00' },
+            { cat: 'kids', title: 'Schule / Szkoła (Mia)', time: '08:00 - 13:15' },
+            { cat: 'kids', title: 'Kinderarzt / Lekarz (Lukas)', time: '15:00' }
+        ];
+
+        let todos = [
+            { id: 1, title: 'Einkaufen für das Wochenende', roleKey: 'assigneeAll', done: false },
+            { id: 2, title: 'Mathe Hausaufgaben kontrollieren', roleKey: 'roleParent', name: 'Mama', done: true },
+            { id: 3, title: 'Rezept beim Arzt abholen', roleKey: 'roleGrandparent', name: 'Oma', done: false }
+        ];
+
+        const galleryPhotos = [
+            "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1000&q=80",
+            "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=1000&q=80",
+            "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?auto=format&fit=crop&w=1000&q=80"
+        ];
+        
+        let slideshowInterval = null;
+        let photoIndex = 0;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setLanguage('de');
+        });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            // Button toggle
+            document.getElementById('lang-de').className = lang === 'de' ? 'px-3 py-1.5 rounded-lg bg-white shadow-sm text-indigo-600 transition' : 'px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+            document.getElementById('lang-pl').className = lang === 'pl' ? 'px-3 py-1.5 rounded-lg bg-white shadow-sm text-indigo-600 transition' : 'px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+
+            // Static Labels
+            document.getElementById('lbl-today').innerText = t.today;
+            document.getElementById('lbl-active-members').innerText = t.activeMembers;
+            document.getElementById('lbl-photo-title').innerText = t.photoTitle;
+            document.getElementById('btn-upload-photo').innerText = t.btnUpload;
+            document.getElementById('lbl-slideshow').innerText = t.btnSlideshow;
+            document.getElementById('lbl-family-group').innerText = t.familyGroup;
+            document.getElementById('lbl-family-sub').innerText = t.familySub;
+            document.getElementById('btn-add-member').innerText = t.btnAddMember;
+            document.getElementById('lbl-schedule-title').innerText = t.scheduleTitle;
+            document.getElementById('btn-add-event').innerText = t.btnAddEvent;
+            document.getElementById('lbl-todo-title').innerText = t.todoTitle;
+            document.getElementById('lbl-todo-sub').innerText = t.todoSub;
+            document.getElementById('todo-input').placeholder = t.inputTaskPlaceholder;
+
+            // Columns & Badges
+            document.getElementById('lbl-col-mama').innerHTML = `<span class="w-3 h-3 rounded-full bg-blue-500"></span> ${t.colMama}`;
+            document.getElementById('lbl-col-papa').innerHTML = `<span class="w-3 h-3 rounded-full bg-emerald-500"></span> ${t.colPapa}`;
+            document.getElementById('lbl-col-kids').innerHTML = `<span class="w-3 h-3 rounded-full bg-amber-500"></span> ${t.colKids}`;
+            document.getElementById('badge-parents-1').innerText = t.parents;
+            document.getElementById('badge-parents-2').innerText = t.parents;
+            document.getElementById('lbl-badge-kids').innerText = t.badgeKids;
+
+            // Modals Labels
+            document.getElementById('lbl-modal-event-title').innerText = t.modalEventTitle;
+            document.getElementById('lbl-modal-invite-title').innerText = t.modalInviteTitle;
+            document.getElementById('lbl-modal-invite-sub').innerText = t.modalInviteSub;
+            document.getElementById('lbl-field-category').innerText = t.labelCategory;
+            document.getElementById('lbl-field-title').innerText = t.labelTitle;
+            document.getElementById('lbl-field-time').innerText = t.labelTime;
+            document.getElementById('lbl-field-role').innerText = t.labelRole;
+            document.getElementById('lbl-field-name').innerText = t.labelName;
+            document.getElementById('lbl-field-code').innerText = t.labelCode;
+            document.getElementById('btn-cancel-event').innerText = t.btnCancel;
+            document.getElementById('btn-save-event').innerText = t.btnSave;
+            document.getElementById('btn-done-invite').innerText = t.btnDone;
+
+            // Dropdowns update
+            populateDropdowns();
+
+            updateDate();
+            renderEvents();
+            renderTodos();
+        }
+
+        function populateDropdowns() {
+            const t = translations[currentLang];
+            
+            // To-Do Assignee Select
+            const todoAssigneeSelect = document.getElementById('todo-assignee');
+            todoAssigneeSelect.innerHTML = `
+                <option value="assigneeAll">${t.assigneeAll}</option>
+                <option value="roleParent-Mama">Mama (${t.parents})</option>
+                <option value="roleParent-Papa">Papa (${t.parents})</option>
+                <option value="roleChild-Mia">Mia (${t.children})</option>
+                <option value="roleGrandparent-Oma">Oma/Babcia (${t.grandparents})</option>
+            `;
+
+            // Event Category Select
+            const eventCatSelect = document.getElementById('event-category');
+            eventCatSelect.innerHTML = `
+                <option value="mama">${t.optMamaWork}</option>
+                <option value="papa">${t.optPapaWork}</option>
+                <option value="kids">${t.optKidsSchool}</option>
+            `;
+
+            // Invite Role Select
+            const inviteRoleSelect = document.getElementById('invite-role-select');
+            inviteRoleSelect.innerHTML = `
+                <option>${t.roleChild} (${t.children})</option>
+                <option>${t.roleGrandparent} (${t.grandparents})</option>
+                <option>${t.roleParent} (${t.parents})</option>
+            `;
+        }
+
+        function updateDate() {
+            const now = new Date();
+            const locale = currentLang === 'pl' ? 'pl-PL' : 'de-DE';
+            
+            const optionsDate = { day: '2-digit', month: 'long', year: 'numeric' };
+            const optionsDay = { weekday: 'long' };
+
+            document.getElementById('current-date').innerText = now.toLocaleDateString(locale, optionsDate);
+            document.getElementById('current-day').innerText = now.toLocaleDateString(locale, optionsDay);
+        }
+
+        function renderEvents() {
+            const containerMama = document.getElementById('events-mama');
+            const containerPapa = document.getElementById('events-papa');
+            const containerKids = document.getElementById('events-kids');
+
+            containerMama.innerHTML = '';
+            containerPapa.innerHTML = '';
+            containerKids.innerHTML = '';
+
+            events.forEach(ev => {
+                const card = `
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-xs text-slate-800">${ev.title}</p>
+                            <p class="text-[11px] text-slate-500 font-medium">${ev.time}</p>
+                        </div>
+                        <i class="fa-regular fa-clock text-slate-400 text-xs"></i>
+                    </div>
+                `;
+
+                if (ev.cat === 'mama') containerMama.innerHTML += card;
+                if (ev.cat === 'papa') containerPapa.innerHTML += card;
+                if (ev.cat === 'kids') containerKids.innerHTML += card;
+            });
+        }
+
+        function renderTodos() {
+            const container = document.getElementById('todo-container');
+            const t = translations[currentLang];
+            container.innerHTML = '';
+
+            todos.forEach(itemObj => {
+                let badgeLabel = t.assigneeAll;
+                if (itemObj.roleKey === 'roleParent') badgeLabel = `${itemObj.name} (${t.parents})`;
+                if (itemObj.roleKey === 'roleChild') badgeLabel = `${itemObj.name} (${t.children})`;
+                if (itemObj.roleKey === 'roleGrandparent') badgeLabel = `${itemObj.name} (${t.grandparents})`;
+
+                const itemHtml = `
+                    <div class="flex items-center justify-between p-3 rounded-2xl border ${itemObj.done ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-slate-200'} transition">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" ${itemObj.done ? 'checked' : ''} onchange="toggleTodo(${itemObj.id})" class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                            <span class="text-xs font-semibold ${itemObj.done ? 'line-through text-slate-400' : 'text-slate-700'}">${itemObj.title}</span>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-indigo-50 text-indigo-600">${badgeLabel}</span>
+                    </div>
+                `;
+                container.innerHTML += itemHtml;
+            });
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const rawAssignee = document.getElementById('todo-assignee').value;
+            if (!input.value.trim()) return;
+
+            let roleKey = 'assigneeAll';
+            let name = '';
+
+            if (rawAssignee.includes('-')) {
+                const parts = rawAssignee.split('-');
+                roleKey = parts[0];
+                name = parts[1];
+            }
+
+            todos.push({
+                id: Date.now(),
+                title: input.value.trim(),
+                roleKey: roleKey,
+                name: name,
+                done: false
+            });
+
+            input.value = '';
+            renderTodos();
+        }
+
+        function toggleTodo(id) {
+            todos = todos.map(t => t.id === id ? { ...t, done: !t.done } : t);
+            renderTodos();
+        }
+
+        function uploadPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('daily-photo').src = e.target.result;
+                    stopSlideshow();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleSlideshow() {
+            const statusLabel = document.getElementById('slideshow-status');
+            const t = translations[currentLang];
+
+            if (slideshowInterval) {
+                stopSlideshow();
+            } else {
+                statusLabel.innerText = t.slideshowActive;
+                statusLabel.className = "text-indigo-600 font-bold";
+                slideshowInterval = setInterval(() => {
+                    photoIndex = (photoIndex + 1) % galleryPhotos.length;
+                    document.getElementById('daily-photo').src = galleryPhotos[photoIndex];
+                }, 3000);
+            }
+        }
+
+        function stopSlideshow() {
+            if (slideshowInterval) {
+                clearInterval(slideshowInterval);
+                slideshowInterval = null;
+            }
+            const statusLabel = document.getElementById('slideshow-status');
+            const t = translations[currentLang];
+            statusLabel.innerText = t.slideshowInactive;
+            statusLabel.className = "text-slate-400 font-medium";
+        }
+
+        function openEventModal() { document.getElementById('event-modal').classList.remove('hidden'); }
+        function closeEventModal() { document.getElementById('event-modal').classList.add('hidden'); }
+        function openInviteModal() { document.getElementById('invite-modal').classList.remove('hidden'); }
+        function closeInviteModal() { document.getElementById('invite-modal').classList.add('hidden'); }
+
+        function saveEvent() {
+            const cat = document.getElementById('event-category').value;
+            const title = document.getElementById('event-title-input').value;
+            const time = document.getElementById('event-time-input').value;
+
+            if (title && time) {
+                events.push({ cat, title, time });
+                renderEvents();
+                closeEventModal();
+                document.getElementById('event-title-input').value = '';
+                document.getElementById('event-time-input').value = '';
+            }
+        }
+    </script>
+</body>
+            </html>
